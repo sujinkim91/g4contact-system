@@ -42,8 +42,22 @@
 
   const tbody = document.getElementById("g4-store-tbody");
   const toastEl = document.getElementById("toast");
+  const openCompleteModal = document.getElementById("open-complete-modal");
+  const openCompleteMessage = document.getElementById("open-complete-message");
+  const openCompleteOk = document.getElementById("open-complete-ok");
   const detailTitle = document.getElementById("detail-title");
   const detailBreadcrumb = document.getElementById("detail-breadcrumb");
+
+  function showOpenCompleteModal(storeName) {
+    openCompleteMessage.textContent =
+      `「${storeName}」 오픈 처리가 완료되었습니다. 해당 상점은 운영 오픈 상태로 전환되었습니다.`;
+    openCompleteModal.classList.remove("modal--hidden");
+    openCompleteOk.focus();
+  }
+
+  function hideOpenCompleteModal() {
+    openCompleteModal.classList.add("modal--hidden");
+  }
 
   function showToast(message) {
     toastEl.textContent = message;
@@ -106,7 +120,7 @@
         }
         s.opened = true;
         renderTable();
-        showToast(`${s.name} 오픈 처리가 완료되었습니다.`);
+        showOpenCompleteModal(s.name);
       });
     });
     tbody.querySelectorAll(".js-store-link").forEach((btn) => {
@@ -181,6 +195,14 @@
   }
 
   document.getElementById("btn-back-list").addEventListener("click", navigateToG4List);
+
+  openCompleteOk.addEventListener("click", hideOpenCompleteModal);
+  openCompleteModal.querySelectorAll("[data-close-modal]").forEach((el) => {
+    el.addEventListener("click", hideOpenCompleteModal);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !openCompleteModal.classList.contains("modal--hidden")) hideOpenCompleteModal();
+  });
 
   document.querySelectorAll('[data-toggle]').forEach((btn) => {
     btn.addEventListener("click", () => {

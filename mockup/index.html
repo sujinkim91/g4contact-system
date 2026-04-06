@@ -218,6 +218,19 @@
     </main>
   </div>
   <div id="toast" class="toast toast--hidden" role="status"></div>
+
+  <div id="open-complete-modal" class="modal modal--hidden" role="dialog" aria-modal="true" aria-labelledby="open-complete-title">
+    <div class="modal__backdrop" data-close-modal tabindex="-1"></div>
+    <div class="modal__panel">
+      <h2 id="open-complete-title" class="modal__title">오픈 완료</h2>
+      <p class="modal__body" id="open-complete-message"></p>
+      <p class="modal__sub muted">상점이 정상적으로 오픈되었습니다. 고객 화면에도 반영됩니다. (목업)</p>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--primary" id="open-complete-ok">확인</button>
+      </div>
+    </div>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>

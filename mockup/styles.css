@@ -629,3 +629,63 @@ body {
   pointer-events: none;
   transform: translateX(-50%) translateY(12px);
 }
+
+/* 오픈 완료 팝업 */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.modal--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 42, 90, 0.45);
+}
+
+.modal__panel {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(26, 42, 90, 0.18);
+  padding: 24px 26px 20px;
+}
+
+.modal__title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.modal__body {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.modal__sub {
+  margin: 0 0 22px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+}
