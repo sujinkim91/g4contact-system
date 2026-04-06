@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VROONG Intra Lite — 목업</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <div class="sidebar__logo">VROONG Intra Lite</div>
+        <div class="sidebar__user">
+          <div class="sidebar__user-name">김수진</div>
+          <div class="sidebar__user-meta">PO팀 · sujin.kim@vroong.com</div>
+          <button type="button" class="btn btn--danger btn--sm">로그아웃</button>
+        </div>
+      </div>
+      <div class="sidebar__search">
+        <span class="sidebar__search-icon" aria-hidden="true">🔍</span>
+        <input type="search" placeholder="메뉴 검색" class="sidebar__search-input" />
+      </div>
+      <nav class="nav">
+        <div class="nav__group">
+          <button type="button" class="nav__group-title" data-toggle="fav">즐겨찾기 <span class="chev">▼</span></button>
+          <ul class="nav__list" id="nav-fav">
+            <li><a href="#" class="nav__link">계약 관리</a></li>
+          </ul>
+        </div>
+        <div class="nav__group">
+          <button type="button" class="nav__group-title" data-toggle="company">업체 관리 <span class="chev">▼</span></button>
+          <ul class="nav__list" id="nav-company">
+            <li><a href="#/store-management" class="nav__link" data-nav="store-mgmt">상점 관리</a></li>
+            <li><a href="#" class="nav__link">대량 상점 관리</a></li>
+            <li><a href="#" class="nav__link">상점 문의 대리 접수</a></li>
+          </ul>
+        </div>
+        <div class="nav__group nav__group--open">
+          <button type="button" class="nav__group-title nav__group-title--active" data-toggle="g4">G4 온보딩 <span class="chev">▼</span></button>
+          <ul class="nav__list" id="nav-g4">
+            <li><a href="#/g4-open-stores" class="nav__link nav__link--active" data-nav="g4-list">G4 오픈 상점 목록</a></li>
+          </ul>
+        </div>
+        <div class="nav__group">
+          <button type="button" class="nav__group-title" data-toggle="notice">공지 관리 <span class="chev">▼</span></button>
+          <ul class="nav__list" id="nav-notice">
+            <li><a href="#" class="nav__link">상점 공지 관리</a></li>
+          </ul>
+        </div>
+        <div class="nav__group">
+          <button type="button" class="nav__group-title" data-toggle="settle">정산 관리 <span class="chev">▼</span></button>
+          <ul class="nav__list" id="nav-settle">
+            <li><a href="#" class="nav__link">상점별 회비 조회</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <!-- G4 오픈 상점 목록 -->
+      <section id="view-g4-open-stores" class="view view--hidden">
+        <header class="page-head">
+          <div class="page-head__top">
+            <div class="breadcrumbs">G4 온보딩 &gt; G4 오픈 상점 목록</div>
+            <button type="button" class="btn btn--danger btn--pill">초기화</button>
+          </div>
+          <h1 class="page-title">G4 오픈 상점 목록</h1>
+        </header>
+
+        <div class="card card--filters">
+          <div class="filter-row">
+            <span class="filter-label">기간 선택</span>
+            <label class="radio"><input type="radio" name="period" checked /> 전체</label>
+            <label class="radio"><input type="radio" name="period" /> 오늘</label>
+            <label class="radio"><input type="radio" name="period" /> 1주일</label>
+            <label class="radio"><input type="radio" name="period" /> 1개월</label>
+          </div>
+          <div class="filter-row">
+            <span class="filter-label">검색</span>
+            <input type="text" class="input input--md" placeholder="상점명" />
+            <input type="text" class="input input--md" placeholder="상점코드" />
+            <button type="button" class="btn btn--primary btn--icon" title="검색">🔍</button>
+          </div>
+        </div>
+
+        <div class="card card--table">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="th-check"><input type="checkbox" aria-label="전체 선택" /></th>
+                  <th>상점코드</th>
+                  <th>상점</th>
+                  <th>관리용 상점명</th>
+                  <th>프랜차이즈</th>
+                  <th>VAN 코드</th>
+                  <th>더존 코드</th>
+                  <th>오픈 처리</th>
+                </tr>
+              </thead>
+              <tbody id="g4-store-tbody"></tbody>
+            </table>
+          </div>
+          <footer class="table-foot">
+            <div class="table-foot__left">
+              <button type="button" class="btn btn--primary btn--pill">+ 추가</button>
+              <button type="button" class="btn btn--muted btn--pill" disabled>일괄 처리</button>
+            </div>
+            <div class="table-foot__center pagination">
+              <button type="button" class="pagination__btn" disabled>‹</button>
+              <span class="pagination__nums"><strong>1</strong> 2 3 … 10</span>
+              <button type="button" class="pagination__btn">›</button>
+            </div>
+            <div class="table-foot__right muted">총 <strong id="g4-total">3</strong>개</div>
+          </footer>
+        </div>
+      </section>
+
+      <!-- 상점 조회 (상세) -->
+      <section id="view-store-detail" class="view view--hidden">
+        <header class="page-head page-head--detail">
+          <div class="page-head__top">
+            <div class="breadcrumbs" id="detail-breadcrumb">G4 온보딩 &gt; G4 오픈 상점 목록 &gt; 상점 조회</div>
+            <div class="page-head__meta muted">
+              <span>등록 2025-11-02 14:22</span>
+              <span>최종 수정 2026-04-01 09:15</span>
+            </div>
+          </div>
+          <h1 class="page-title" id="detail-title">상점 조회</h1>
+        </header>
+
+        <div class="detail-layout">
+          <nav class="v-tabs" aria-label="상점 정보 섹션">
+            <button type="button" class="v-tabs__item v-tabs__item--active">기본 정보 <span class="v-tabs__arrow">›</span></button>
+            <button type="button" class="v-tabs__item" disabled>정산 정보</button>
+            <button type="button" class="v-tabs__item" disabled>요금 정보</button>
+            <button type="button" class="v-tabs__item" disabled>판매 권역 정보</button>
+            <button type="button" class="v-tabs__item" disabled>할증 정보</button>
+            <button type="button" class="v-tabs__item" disabled>프렌즈 할증 정보</button>
+          </nav>
+          <div class="detail-pane">
+            <div class="form-section">
+              <h2 class="form-section__title">상점 정보</h2>
+              <div class="form-grid">
+                <label class="field">
+                  <span class="field__label"><span class="req">●</span> 상점명</span>
+                  <input type="text" class="input" id="f-store-name" />
+                  <span class="field__hint">고객에게 노출되는 상점명입니다.</span>
+                </label>
+                <label class="field">
+                  <span class="field__label"><span class="req">●</span> 관리용 상점명</span>
+                  <input type="text" class="input" id="f-mgmt-name" />
+                </label>
+                <label class="field">
+                  <span class="field__label"><span class="req">●</span> 상점 전화번호</span>
+                  <input type="text" class="input" id="f-phone" placeholder="02-0000-0000" />
+                </label>
+                <label class="field">
+                  <span class="field__label">더존코드</span>
+                  <input type="text" class="input" id="f-douzone" placeholder="예: P274131" />
+                </label>
+                <label class="field">
+                  <span class="field__label">VAN 코드</span>
+                  <input type="text" class="input" id="f-van" placeholder="VAN 연동 코드" />
+                </label>
+                <label class="field">
+                  <span class="field__label">카드 수수료율(%)</span>
+                  <input type="text" class="input" id="f-fee" value="2.5" />
+                </label>
+              </div>
+            </div>
+            <div class="form-section">
+              <h2 class="form-section__title">상점 운영상태</h2>
+              <div class="form-grid form-grid--2">
+                <label class="field">
+                  <span class="field__label">개점일</span>
+                  <input type="date" class="input" id="f-open-date" />
+                </label>
+                <label class="field">
+                  <span class="field__label">폐점일</span>
+                  <input type="date" class="input" id="f-close-date" />
+                </label>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn--primary">상점 기본 정보 저장</button>
+            </div>
+            <div class="detail-foot">
+              <button type="button" class="btn btn--ghost">운영상태 변경(휴점)</button>
+              <button type="button" class="btn btn--ghost">유사 상점 등록</button>
+              <button type="button" class="btn btn--ghost" id="btn-back-list">목록으로</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 참고: 상점 관리 (기존 톤) -->
+      <section id="view-store-management" class="view view--hidden">
+        <header class="page-head">
+          <div class="page-head__top">
+            <div class="breadcrumbs">업체 관리 &gt; 상점 관리</div>
+            <button type="button" class="btn btn--danger btn--pill">초기화</button>
+          </div>
+          <h1 class="page-title">상점 관리</h1>
+          <div class="tabs">
+            <button type="button" class="tabs__item tabs__item--active">상점 목록</button>
+            <button type="button" class="tabs__item">수정 예약 목록</button>
+          </div>
+        </header>
+        <div class="card card--filters muted" style="padding: 2rem; text-align: center;">
+          참고용 목업입니다. 실제 필터는 생략했습니다.
+        </div>
+        <div class="card card--table">
+          <p class="muted" style="padding: 1rem 1.25rem; margin: 0;">좌측에서 <strong>G4 오픈 상점 목록</strong>을 선택하면 신규 플로우를 확인할 수 있습니다.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="toast" class="toast toast--hidden" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
