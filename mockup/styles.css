@@ -372,6 +372,21 @@ body {
   background: var(--navy-light);
 }
 
+.open-done {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e7a4c;
+  background: #e8f6ef;
+  border: 1px solid #b8e0cc;
+  border-radius: var(--radius);
+  white-space: nowrap;
+}
+
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;

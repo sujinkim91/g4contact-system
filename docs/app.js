@@ -7,6 +7,7 @@
       franchise: "세븐일레븐",
       van: "",
       douzone: "",
+      opened: false,
     },
     {
       id: "401102",
@@ -15,6 +16,7 @@
       franchise: "GS25",
       van: "",
       douzone: "P274131",
+      opened: false,
     },
     {
       id: "512903",
@@ -23,11 +25,12 @@
       franchise: "이마트24",
       van: "VAN-DEMO-01",
       douzone: "",
+      opened: false,
     },
   ];
 
   const state = {
-    stores: MOCK_STORES.map((s) => ({ ...s })),
+    stores: MOCK_STORES.map((s) => ({ ...s, opened: !!s.opened })),
     currentStoreId: null,
   };
 
@@ -64,9 +67,13 @@
         <td><button type="button" class="btn--link js-store-link" data-id="${escapeHtml(row.id)}">${escapeHtml(row.name)}</button></td>
         <td>${escapeHtml(row.mgmtName)}</td>
         <td><button type="button" class="btn--link js-franchise">${escapeHtml(row.franchise)}</button></td>
-        <td class="cell-input"><input type="text" class="input input--cell js-van" data-id="${escapeHtml(row.id)}" value="${escapeHtml(row.van)}" placeholder="VAN 코드" /></td>
-        <td class="cell-input"><input type="text" class="input input--cell js-douzone" data-id="${escapeHtml(row.id)}" value="${escapeHtml(row.douzone)}" placeholder="더존 코드" /></td>
-        <td><button type="button" class="btn btn--open js-open-process" data-id="${escapeHtml(row.id)}">오픈 처리</button></td>
+        <td class="cell-input"><input type="text" class="input input--cell js-van" data-id="${escapeHtml(row.id)}" value="${escapeHtml(row.van)}" placeholder="VAN 코드" ${row.opened ? "disabled" : ""} /></td>
+        <td class="cell-input"><input type="text" class="input input--cell js-douzone" data-id="${escapeHtml(row.id)}" value="${escapeHtml(row.douzone)}" placeholder="더존 코드" ${row.opened ? "disabled" : ""} /></td>
+        <td>${
+          row.opened
+            ? '<span class="open-done" role="status">오픈완료</span>'
+            : `<button type="button" class="btn btn--open js-open-process" data-id="${escapeHtml(row.id)}">오픈 처리</button>`
+        }</td>
       `;
       tbody.appendChild(tr);
     });
@@ -97,7 +104,9 @@
           showToast("VAN 코드와 더존 코드를 모두 입력해 주세요.");
           return;
         }
-        showToast(`상점 ${s.name} 오픈 처리가 완료되었습니다. (목업)`);
+        s.opened = true;
+        renderTable();
+        showToast(`${s.name} 오픈 처리가 완료되었습니다.`);
       });
     });
     tbody.querySelectorAll(".js-store-link").forEach((btn) => {
